@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">The Map App</string>
+    <string name="title_activity_location_display">Map</string>
+    <string name="menu_refresh">New Location</string>
+    <string name="menu_reset">Reset</string>
+    <string name="map_button">Harbor</string>
+</resources>
