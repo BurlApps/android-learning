@@ -1,10 +1,12 @@
-package com.test.nelson.stormy;
+package com.test.nelson.stormy.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
+
+import com.test.nelson.stormy.R;
 
 /**
  * Created by nelson on 8/12/15.
