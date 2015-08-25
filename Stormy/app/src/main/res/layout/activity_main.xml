@@ -17,7 +17,11 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:textColor="@android:color/white"
-        android:textSize="150sp"/>
+        android:textSize="150sp"
+        android:shadowColor="#19010101"
+        android:shadowDx="-20"
+        android:shadowDy="20"
+        android:shadowRadius="50"/>
 
     <ImageView
         android:layout_width="wrap_content"
