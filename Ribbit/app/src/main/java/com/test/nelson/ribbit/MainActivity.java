@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.parse.Parse;
+
 public class MainActivity extends AppCompatActivity implements ActionBar.TabListener {
 
     /**
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+
 
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
