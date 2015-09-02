@@ -21,7 +21,7 @@
         android:shadowColor="#19010101"
         android:shadowDx="-20"
         android:shadowDy="20"
-        android:shadowRadius="50"/>
+        android:shadowRadius="25"/>
 
     <ImageView
         android:layout_width="wrap_content"
