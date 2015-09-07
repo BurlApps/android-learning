@@ -7,5 +7,15 @@
           android:orderInCategory="100"
           app:showAsAction="never"
           />
+    <item android:id="@+id/action_edit_friends"
+          android:title="@string/menu_edit_friends_label"
+          app:showAsAction="never"
+          android:orderInCategory="1"
+          />
+    <item android:id="@+id/action_camera"
+          android:title="@string/menu_camera_label"
+          android:icon="@android:drawable/ic_menu_camera"
+          app:showAsAction="ifRoom"
+          android:orderInCategory="2"/>
 
 </menu>
