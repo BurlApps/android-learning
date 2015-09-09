@@ -14,7 +14,7 @@
           />
     <item android:id="@+id/action_camera"
           android:title="@string/menu_camera_label"
-          android:icon="@android:drawable/ic_menu_camera"
+          android:icon="@mipmap/ic_local_see_white_24dp"
           app:showAsAction="ifRoom"
           android:orderInCategory="2"/>
 
