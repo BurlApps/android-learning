@@ -22,7 +22,6 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter{
         mContext = context;
     }
 
-
     @Override
     public Fragment getItem(int position) {
         switch (position) {

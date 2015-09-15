@@ -1,47 +1,46 @@
 package com.gmail.nelsonr462.opin;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.gmail.nelsonr462.opin.dummy.DummyContent;
+import com.parse.ConfigCallback;
+import com.parse.FindCallback;
+import com.parse.Parse;
+import com.parse.ParseConfig;
+import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnSurveyFragmentClick}
- * interface.
- */
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+
 public class SurveyFragment extends android.support.v4.app.ListFragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String TAG = SurveyFragment.class.getSimpleName();
 
     private OnSurveyFragmentClick mListener;
+    private ParseInstallation mParseInstallation = ParseInstallation.getCurrentInstallation();
+    protected List<ParseObject> mSurveys;
+    protected ParseRelation<ParseObject> mSurveyRelation;
+    protected ParseConfig mParseConfig;
 
-    // TODO: Rename and change types of parameters
-    public static SurveyFragment newInstance(String param1, String param2) {
-        SurveyFragment fragment = new SurveyFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public SurveyFragment() {
     }
 
@@ -49,16 +48,71 @@ public class SurveyFragment extends android.support.v4.app.ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
-        // TODO: Change Adapter to display your content
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, DummyContent.ITEMS));
+        ParseConfig.getInBackground(new ConfigCallback() {
+            @Override
+            public void done(ParseConfig parseConfig, ParseException e) {
+                if(e == null) {
+                    mParseConfig = parseConfig;
+                } else {
+                    mParseConfig = ParseConfig.getCurrentConfig();
+                }
+            }
+        });
+
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_survey, container, false);
+        ButterKnife.bind(this, rootView);
+
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+
+        mSurveyRelation = mParseInstallation.getRelation(ParseConstants.KEY_SURVEYS);
+        ParseQuery<ParseObject> query = mSurveyRelation.getQuery();
+        query.whereEqualTo(ParseConstants.KEY_SURVEY_STATE, 1);
+        query.addAscendingOrder(ParseConstants.KEY_CREATED_AT);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> surveyList, ParseException e) {
+
+                if (e == null) {
+                    mSurveys = surveyList;
+                    String[] surveys = new String[mSurveys.size()];
+                    int i = 0;
+                    for (ParseObject survey : mSurveys) {
+                        surveys[i] = survey.getString(ParseConstants.KEY_NAME);
+                        i++;
+                    }
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                            getListView().getContext(),
+                            android.R.layout.simple_list_item_1,
+                            surveys
+                    );
+
+                    setListAdapter(adapter);
+                } else {
+                    Log.e(TAG, e.getMessage());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getListView().getContext());
+                    builder.setMessage(e.getMessage())
+                            .setTitle(R.string.fetch_surveys_error_title)
+                            .setPositiveButton(android.R.string.ok, null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            }
+        });
+
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -81,25 +135,21 @@ public class SurveyFragment extends android.support.v4.app.ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
 
-        if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            mListener.onSurveyFragmentClick(DummyContent.ITEMS.get(position).id);
-        }
+        String installationId = mParseInstallation.getObjectId();
+        ParseObject survey = mSurveys.get(position);
+        String surveyId = survey.getObjectId();
+
+        String url = mParseConfig.getString(ParseConstants.KEY_HOST)+"/surveys/"+surveyId+"/"+installationId;
+
+        Intent intent = new Intent(getActivity(), SurveyWebViewActivity.class);
+        intent.putExtra("surveyUrl", url);
+        startActivity(intent);
+
+
+
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnSurveyFragmentClick {
-        // TODO: Update argument type and name
         public void onSurveyFragmentClick(String id);
     }
 

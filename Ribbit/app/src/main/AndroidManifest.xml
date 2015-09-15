@@ -67,7 +67,6 @@
                 android:value="com.test.nelson.ribbit.MainActivity" />
         </activity>
 
-
     </application>
 
 </manifest>

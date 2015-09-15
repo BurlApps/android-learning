@@ -5,4 +5,30 @@
              tools:context="com.gmail.nelsonr462.opin.AddClassFragment">
 
 
+    <EditText
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/classCodeEditText"
+        android:layout_gravity="center"
+        android:hint="Class Code"
+        android:gravity="center"/>
+
+    <Button
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="Add Class"
+        android:id="@+id/addClassButton"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        android:background="@color/tabsScrollColor"
+        android:textColor="#ffffff"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add your class to get started!"
+        android:id="@+id/addClassTextView"
+        android:layout_gravity="center"
+        android:layout_marginBottom="150dp"
+        android:textSize="20dp"/>
 </FrameLayout>
