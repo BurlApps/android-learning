@@ -17,6 +17,12 @@ public class ParseConstants {
     public static final String KEY_NAME = "name";
     public static final String KEY_INSTALLATION_ID = "installationId";
     public static final String KEY_HOST = "host";
+    public static final String KEY_LOADER_PRIMARY = "loaderPrimary";
+    public static final String KEY_LOADER_BACKGROUND = "loaderBackground";
+
+    // Color Values
+    public static int[] COLOR_LOADER_PRIMARY;
+    public static int[] COLOR_LOADER_BACKGROUND;
 
 
 

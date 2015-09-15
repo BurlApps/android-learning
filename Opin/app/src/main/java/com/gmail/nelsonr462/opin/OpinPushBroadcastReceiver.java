@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
 
 import com.parse.ParsePushBroadcastReceiver;
+import com.parse.PushService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,18 +17,14 @@ import org.json.JSONObject;
 public class OpinPushBroadcastReceiver extends ParsePushBroadcastReceiver {
     public static final String PARSE_DATA_KEY = "com.parse.Data";
 
-
     @Override
     protected void onPushReceive(Context context, Intent intent) {
-
+        super.onPushReceive(context, intent);
     }
 
     @Override
     protected void onPushOpen(Context context, Intent intent) {
-        Intent newIntent = new Intent(context, SurveyWebViewActivity.class);
-        newIntent.putExtras(intent.getExtras());
-        newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(newIntent);
+        super.onPushOpen(context, intent);
     }
 
     private JSONObject getDataFromIntent(Intent intent) {

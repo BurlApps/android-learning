@@ -1,6 +1,7 @@
 package com.gmail.nelsonr462.opin;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.parse.Parse;
 import com.parse.ParseInstallation;

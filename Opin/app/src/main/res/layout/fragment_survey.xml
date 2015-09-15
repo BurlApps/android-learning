@@ -23,7 +23,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:id="@+id/imageView"
-            android:alpha="0.5"
+            android:alpha="0.3"
             android:src="@drawable/thumb"/>
 
         <TextView
@@ -44,6 +44,14 @@
             android:layout_marginTop="10dp"
             android:textSize="15dp"/>
     </LinearLayout>
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/surveyLoadProgressBar"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
 
 
 </RelativeLayout>

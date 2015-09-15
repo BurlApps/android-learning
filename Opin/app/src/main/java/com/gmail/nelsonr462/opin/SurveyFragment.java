@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +26,9 @@ import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
+import com.parse.SaveCallback;
+
+import org.json.JSONArray;
 
 import java.util.List;
 
@@ -35,10 +40,13 @@ public class SurveyFragment extends android.support.v4.app.ListFragment {
     private String TAG = SurveyFragment.class.getSimpleName();
 
     private OnSurveyFragmentClick mListener;
-    private ParseInstallation mParseInstallation = ParseInstallation.getCurrentInstallation();
+    private ParseInstallation mParseInstallation;
     protected List<ParseObject> mSurveys;
     protected ParseRelation<ParseObject> mSurveyRelation;
     protected ParseConfig mParseConfig;
+
+    @Bind(R.id.surveyLoadProgressBar) ProgressBar mProgressBar;
+    @Bind(android.R.id.empty) LinearLayout mEmptyLayout;
 
 
     public SurveyFragment() {
@@ -47,7 +55,6 @@ public class SurveyFragment extends android.support.v4.app.ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         ParseConfig.getInBackground(new ConfigCallback() {
             @Override
@@ -74,41 +81,56 @@ public class SurveyFragment extends android.support.v4.app.ListFragment {
     @Override
     public void onResume() {
         super.onResume();
+        mEmptyLayout.setVisibility(View.INVISIBLE);
+        mProgressBar.setVisibility(View.VISIBLE);
+        mParseInstallation = ParseInstallation.getCurrentInstallation();
 
-
-        mSurveyRelation = mParseInstallation.getRelation(ParseConstants.KEY_SURVEYS);
-        ParseQuery<ParseObject> query = mSurveyRelation.getQuery();
-        query.whereEqualTo(ParseConstants.KEY_SURVEY_STATE, 1);
-        query.addAscendingOrder(ParseConstants.KEY_CREATED_AT);
-        query.findInBackground(new FindCallback<ParseObject>() {
+        mParseInstallation.saveInBackground(new SaveCallback() {
             @Override
-            public void done(List<ParseObject> surveyList, ParseException e) {
-
-                if (e == null) {
-                    mSurveys = surveyList;
-                    String[] surveys = new String[mSurveys.size()];
-                    int i = 0;
-                    for (ParseObject survey : mSurveys) {
-                        surveys[i] = survey.getString(ParseConstants.KEY_NAME);
-                        i++;
-                    }
-
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                            getListView().getContext(),
-                            android.R.layout.simple_list_item_1,
-                            surveys
-                    );
-
-                    setListAdapter(adapter);
-                } else {
-                    Log.e(TAG, e.getMessage());
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getListView().getContext());
-                    builder.setMessage(e.getMessage())
-                            .setTitle(R.string.fetch_surveys_error_title)
-                            .setPositiveButton(android.R.string.ok, null);
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.d(TAG, e.getMessage());
+                    return;
                 }
+
+
+
+                mSurveyRelation = mParseInstallation.getRelation(ParseConstants.KEY_SURVEYS);
+                ParseQuery<ParseObject> query = mSurveyRelation.getQuery();
+                query.whereEqualTo(ParseConstants.KEY_SURVEY_STATE, 1);
+                query.addAscendingOrder(ParseConstants.KEY_CREATED_AT);
+                query.findInBackground(new FindCallback<ParseObject>() {
+                    @Override
+                    public void done(List<ParseObject> surveyList, ParseException e) {
+                        mProgressBar.setVisibility(View.INVISIBLE);
+                        mEmptyLayout.setVisibility(View.VISIBLE);
+                        if (e == null) {
+                            mSurveys = surveyList;
+                            String[] surveys = new String[mSurveys.size()];
+                            int i = 0;
+                            for (ParseObject survey : mSurveys) {
+                                surveys[i] = survey.getString(ParseConstants.KEY_NAME);
+                                i++;
+                            }
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                                    getListView().getContext(),
+                                    android.R.layout.simple_list_item_1,
+                                    surveys
+                            );
+
+                            setListAdapter(adapter);
+                        } else {
+                            Log.e(TAG, e.getMessage());
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getListView().getContext());
+                            builder.setMessage(e.getMessage())
+                                    .setTitle(R.string.fetch_surveys_error_title)
+                                    .setPositiveButton(android.R.string.ok, null);
+                            AlertDialog dialog = builder.create();
+                            dialog.show();
+                        }
+                    }
+                });
             }
         });
 
@@ -140,6 +162,18 @@ public class SurveyFragment extends android.support.v4.app.ListFragment {
         String surveyId = survey.getObjectId();
 
         String url = mParseConfig.getString(ParseConstants.KEY_HOST)+"/surveys/"+surveyId+"/"+installationId;
+
+        JSONArray loadingBackground = mParseConfig.getJSONArray(ParseConstants.KEY_LOADER_BACKGROUND);
+        JSONArray loaderPrimary = mParseConfig.getJSONArray(ParseConstants.KEY_LOADER_PRIMARY);
+
+        ParseConstants.COLOR_LOADER_BACKGROUND = new int[loadingBackground.length()];
+        ParseConstants.COLOR_LOADER_PRIMARY = new int[loaderPrimary.length()];
+
+        for (int i = 0; i < loadingBackground.length(); i++) {
+            ParseConstants.COLOR_LOADER_BACKGROUND[i] = loadingBackground.optInt(i);
+            ParseConstants.COLOR_LOADER_PRIMARY[i] = loaderPrimary.optInt(i);
+        }
+
 
         Intent intent = new Intent(getActivity(), SurveyWebViewActivity.class);
         intent.putExtra("surveyUrl", url);
