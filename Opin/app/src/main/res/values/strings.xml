@@ -11,5 +11,5 @@
     <string name="save_add_class_error_message">Looks like we couldn\'t add your class. Please try again later!</string>
     <string name="success_toast_add_class">Class successfully added!</string>
     <string name="fetch_surveys_error_title">Woops!</string>
-    <string name="title_activity_survey_web_view">SurveyWebViewActivity</string>
+    <string name="title_activity_survey_web_view">Opin Survey</string>
 </resources>

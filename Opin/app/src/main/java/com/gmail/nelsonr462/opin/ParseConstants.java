@@ -19,11 +19,14 @@ public class ParseConstants {
     public static final String KEY_HOST = "host";
     public static final String KEY_LOADER_PRIMARY = "loaderPrimary";
     public static final String KEY_LOADER_BACKGROUND = "loaderBackground";
+    public static final String KEY_SHOW_SURVEY = "show";
 
     // Color Values
     public static int[] COLOR_LOADER_PRIMARY;
     public static int[] COLOR_LOADER_BACKGROUND;
 
+    // Check if app is in foreground
+    public static boolean isAppActive = false;
 
 
 }

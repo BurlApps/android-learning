@@ -61,8 +61,10 @@ public class SurveyFragment extends android.support.v4.app.ListFragment {
             public void done(ParseConfig parseConfig, ParseException e) {
                 if(e == null) {
                     mParseConfig = parseConfig;
+                    OpinApplication.mParseConfig = mParseConfig;
                 } else {
                     mParseConfig = ParseConfig.getCurrentConfig();
+                    OpinApplication.mParseConfig = mParseConfig;
                 }
             }
         });
@@ -84,6 +86,7 @@ public class SurveyFragment extends android.support.v4.app.ListFragment {
         mEmptyLayout.setVisibility(View.INVISIBLE);
         mProgressBar.setVisibility(View.VISIBLE);
         mParseInstallation = ParseInstallation.getCurrentInstallation();
+        OpinApplication.mCurrentInstallation = mParseInstallation;
 
         mParseInstallation.saveInBackground(new SaveCallback() {
             @Override
@@ -98,6 +101,7 @@ public class SurveyFragment extends android.support.v4.app.ListFragment {
                 mSurveyRelation = mParseInstallation.getRelation(ParseConstants.KEY_SURVEYS);
                 ParseQuery<ParseObject> query = mSurveyRelation.getQuery();
                 query.whereEqualTo(ParseConstants.KEY_SURVEY_STATE, 1);
+                query.whereNotEqualTo(ParseConstants.KEY_SHOW_SURVEY, false);
                 query.addAscendingOrder(ParseConstants.KEY_CREATED_AT);
                 query.findInBackground(new FindCallback<ParseObject>() {
                     @Override
@@ -113,10 +117,9 @@ public class SurveyFragment extends android.support.v4.app.ListFragment {
                                 i++;
                             }
 
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                            SurveyAdapter adapter = new SurveyAdapter(
                                     getListView().getContext(),
-                                    android.R.layout.simple_list_item_1,
-                                    surveys
+                                    mSurveys
                             );
 
                             setListAdapter(adapter);

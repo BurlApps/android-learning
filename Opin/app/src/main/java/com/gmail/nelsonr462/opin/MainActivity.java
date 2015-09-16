@@ -1,5 +1,8 @@
 package com.gmail.nelsonr462.opin;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.v4.view.ViewPager;
@@ -10,10 +13,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.parse.ConfigCallback;
+import com.parse.ParseConfig;
+import com.parse.ParseException;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements SurveyFragment.OnSurveyFragmentClick, AddClassFragment.OnClassFragmentInteraction {
+    public static ParseConfig mParseConfig;
+
+
 
 @Bind(R.id.toolbar_title) TextView mToolbarTitle;
 
@@ -57,7 +67,17 @@ public class MainActivity extends AppCompatActivity implements SurveyFragment.On
         pager.setCurrentItem(0);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        ParseConstants.isAppActive = false;
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ParseConstants.isAppActive = true;
+    }
 
     @Override
     public void onSurveyFragmentClick(String id) {
