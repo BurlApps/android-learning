@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/classCodeEditText"
         android:layout_gravity="center"
-        android:hint="Class Code"
+        android:hint="@string/class_code_input_hint"
         android:maxLines="1"
         android:gravity="center"
         android:singleLine="true"
@@ -19,7 +19,7 @@
     <Button
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Add Class"
+        android:text="@string/add_class_button_text"
         android:id="@+id/addClassButton"
         android:layout_gravity="center"
         android:layout_marginTop="60dp"
@@ -27,9 +27,10 @@
         android:textColor="#ffffff"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
+        android:gravity="center"
         android:layout_height="wrap_content"
-        android:text="Add your class to get started!"
+        android:text="@string/add_code_instructions"
         android:id="@+id/addClassTextView"
         android:layout_gravity="center"
         android:layout_marginBottom="120dp"
@@ -38,7 +39,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Let&apos;s get started!"
+        android:text="@string/get_started_header"
         android:id="@+id/getStartedLabel"
         android:layout_gravity="center"
         android:textSize="25sp"

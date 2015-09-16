@@ -1,18 +1,14 @@
 package com.gmail.nelsonr462.opin;
 
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.NotificationCompat;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.parse.ParseConfig;
 import com.parse.ParseInstallation;
 import com.parse.ParsePushBroadcastReceiver;
-import com.parse.PushService;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,13 +19,12 @@ public class OpinPushBroadcastReceiver extends ParsePushBroadcastReceiver {
     public static final String PARSE_DATA_KEY = "com.parse.Data";
     public static final String TAG = OpinPushBroadcastReceiver.class.getSimpleName();
     private ParseConfig mParseConfig;
-    private ParseInstallation mCurrentInstallation;
 
 
     @Override
     protected void onPushReceive(Context context, Intent intent) {
         mParseConfig = ParseConfig.getCurrentConfig();
-        mCurrentInstallation = OpinApplication.mCurrentInstallation;
+        ParseInstallation currentInstallation = OpinApplication.mCurrentInstallation;
 
         JSONObject data = getDataFromIntent(intent);
 
@@ -45,7 +40,7 @@ public class OpinPushBroadcastReceiver extends ParsePushBroadcastReceiver {
             e.printStackTrace();
         }
 
-        deviceObjectId = mCurrentInstallation.getObjectId();
+        deviceObjectId = currentInstallation.getObjectId();
         url = mParseConfig.getString(ParseConstants.KEY_HOST)+"/surveys/"+surveyObjectId+"/"+deviceObjectId;
 
         // Fetch colors for webview

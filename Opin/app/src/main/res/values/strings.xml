@@ -6,4 +6,10 @@
     <string name="success_toast_add_class">Class successfully added!</string>
     <string name="fetch_surveys_error_title">Woops!</string>
     <string name="title_activity_survey_web_view">Opin Survey</string>
+    <string name="add_code_instructions">Please enter the classroom code given to you by your teacher.</string>
+    <string name="get_started_header">Let\'s get started!</string>
+    <string name="class_code_input_hint">Class Code</string>
+    <string name="add_class_button_text">Add Class</string>
+    <string name="empty_list_label_text">You\'re all caught up!</string>
+    <string name="empty_list_detail_text">We\'ll notify you when a new survey becomes available.</string>
 </resources>

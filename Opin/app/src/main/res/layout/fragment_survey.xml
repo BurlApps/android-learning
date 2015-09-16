@@ -29,9 +29,9 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="You&apos;re all caught up!"
+            android:text="@string/empty_list_label_text"
             android:id="@+id/caughtUpLabel"
-            android:textSize="22dp"
+            android:textSize="22sp"
             android:textStyle="bold"
             android:gravity="center"
             android:layout_marginTop="10dp"/>
@@ -39,11 +39,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="We&apos;ll notify you when a new survey becomes available."
+            android:text="@string/empty_list_detail_text"
             android:id="@+id/caughtUpFullTextView"
             android:gravity="center"
             android:layout_marginTop="10dp"
-            android:textSize="15dp"/>
+            android:textSize="15sp"/>
     </LinearLayout>
 
     <ProgressBar

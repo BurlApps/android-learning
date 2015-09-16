@@ -12,7 +12,6 @@ public class ParseConstants {
     public static final String KEY_CREATED_AT = "createdAt";
     public static final String KEY_SURVEY_STATE = "state";
     public static final String KEY_NAME = "name";
-    public static final String KEY_INSTALLATION_ID = "installationId";
     public static final String KEY_HOST = "host";
     public static final String KEY_LOADER_PRIMARY = "loaderPrimary";
     public static final String KEY_LOADER_BACKGROUND = "loaderBackground";
