@@ -12,9 +12,6 @@ import com.parse.ParseObject;
 
 import java.util.List;
 
-/**
- * Created by nelson on 9/15/15.
- */
 public class SurveyAdapter extends ArrayAdapter<ParseObject> {
 
     protected Context mContext;

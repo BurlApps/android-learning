@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.text.InputFilter;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,7 @@ public class AddClassFragment extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_add_class, container, false);
         ButterKnife.bind(this, rootView);
-        mClassCode.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        mClassCode.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
 
         return rootView;
     }
@@ -134,8 +135,8 @@ public class AddClassFragment extends android.support.v4.app.Fragment {
     }
 
 
+
     public interface OnClassFragmentInteraction {
-        // TODO: Update argument type and name
         public void onClassFragmentInteraction(Uri uri);
     }
 

@@ -1,8 +1,5 @@
 package com.gmail.nelsonr462.opin;
 
-/**
- * Created by nelson on 9/14/15.
- */
 public class ParseConstants {
 
     // Parse Classes
