@@ -1,0 +1,3 @@
+[submodule "Opin"]
+	path = Opin
+	url = git@github.com:BurlApps/opin-android.git

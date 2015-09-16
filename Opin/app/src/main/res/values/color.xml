@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="ColorPrimary">#2196F3</color>
-    <color name="PrimaryTabTextColor">#FFFFFF</color>
-    <color name="ColorPrimaryDark">#1565C0</color>
-    <color name="tabsScrollColor">#90CAF9</color>
-</resources>
